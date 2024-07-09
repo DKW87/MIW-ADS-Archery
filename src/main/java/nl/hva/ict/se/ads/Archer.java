@@ -19,6 +19,7 @@ public class Archer {
     private String lastName;
     private static int lastId = 100000;
     // TODO: add an attribute for the scores of all arrows of all rounds. Hint: use 2d-array
+    private int[][] scoresAllRoundsAndArrows = new int[MAX_ROUNDS][MAX_ARROWS];
 
 
     /**
