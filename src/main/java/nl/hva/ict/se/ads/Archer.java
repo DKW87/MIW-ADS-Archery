@@ -19,7 +19,12 @@ public class Archer {
     private String lastName;
     private static int lastId = 100000;
     // TODO: add an attribute for the scores of all arrows of all rounds. Hint: use 2d-array
-    private int[][] scoresAllRoundsAndArrows = new int[MAX_ROUNDS][MAX_ARROWS];
+    private int[][] totalScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
+    private int[][] weightedScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
+    private static final int[] SCORE_WEIGHT_FACTORS = {0, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20}; // from low to high 0-10 so points directly match index of array
+    private int zeroShotCount;
+    private static final int ZERO_SHOT_MULTIPLIER = 10;
+
 
 
     /**
@@ -54,23 +59,40 @@ public class Archer {
      * @param points the points shot during the round.
      */
     public void registerScoreForRound(int round, int[] points) {
-        // TODO implement
+        for (int i = 0; i < MAX_ARROWS; i++) {
+            this.totalScoreArray[round][i] = points[i];
+            this.weightedScoreArray[round][i] = SCORE_WEIGHT_FACTORS[points[i]];
+            checkSetZeroShot(points[i]);
+        }
     }
 
     /**
      * @return The total score of an Archer, so the sum of all arrows of all rounds
      */
     public int getTotalScore() {
-        // TODO implement
-        return 0;
+        return calculateScore(totalScoreArray);
     }
 
     /**
      * @return The weighted score, see documentation.
      */
     public int getWeightedScore() {
-        // TODO implement
-        return 0;
+        return calculateScore(weightedScoreArray) - (zeroShotCount * ZERO_SHOT_MULTIPLIER);
+    }
+
+    public int calculateScore(int[][] scoreArray) {
+        int score = 0;
+
+        for (int i = 0; i < scoreArray.length; i++) {
+            for (int j = 0; j < scoreArray[i].length; j++) {
+                score += scoreArray[i][j];
+            }
+        }
+        return score;
+    }
+
+    private void checkSetZeroShot(int points) {
+        if (points == 0) zeroShotCount++;
     }
 
     /**
@@ -114,7 +136,7 @@ public class Archer {
 
     @Override
     public String toString() {
-        return "To do";
+        return String.format("%d (%d / %d) %s %s", id, getTotalScore(), getWeightedScore(), firstName, lastName);
     }
 
 }

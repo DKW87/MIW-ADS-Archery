@@ -1,15 +1,18 @@
 package nl.hva.ict.se.ads;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Launcher {
 
+    private static long timeMs;
+
     public static void main(String[] args) {
-        List<Archer> unsortedArcherList = Archer.generateArchers(25);
+        startTime();
+        List<Archer> unsortedArcherList = Archer.generateArchers(1000);
         for (Archer archer : unsortedArcherList) {
             System.out.println(archer);
         }
+        stopTime();
 
         System.out.println();
         System.out.println("------- sorteren op Id ---------");
@@ -32,4 +35,14 @@ public class Launcher {
         System.out.println("------- efficiëntie van sorteer algoritmes ---------");
         // TODO
     }
+
+    // methods
+    private static void startTime() {
+        timeMs = System.currentTimeMillis();
+    }
+
+    private static void stopTime() {
+        System.out.printf("%d Ms", System.currentTimeMillis() - timeMs);
+    }
+
 }
