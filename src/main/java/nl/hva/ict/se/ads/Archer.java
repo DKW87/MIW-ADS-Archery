@@ -14,7 +14,8 @@ public class Archer {
 
     public static int MAX_ARROWS = 3;
     public static int MAX_ROUNDS = 10;
-    private static final int[] SCORE_WEIGHT_FACTORS = {0, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20}; // from low to high 0-10 so points directly match index of array
+    private static final int[] SCORE_WEIGHT_FACTORS = {0, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20};
+    // weight factors above are from low to high (0-10) so that earned points directly match with index of this array
     private static final int ZERO_SHOT_POINT_DEDUCTION = -10;
     private static Random randomizer = new Random();
     private final int id; // Once assigned a value is not allowed to change.
