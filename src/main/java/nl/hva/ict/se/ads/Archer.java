@@ -16,7 +16,7 @@ public class Archer implements Comparable<Archer> {
     public static int MAX_ROUNDS = 10;
     private static final int[] WEIGHTED_POINTS = {-10, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20};
     // above weighted points are from low to high so that points earned (0-10) directly match with index of this array
-    private static final int MAX_POINTS_VALUE = 10;
+    private static final int MAX_POINTS_VALUE = 10; // maximum value of points that can be scored with 1 arrow
     private static Random randomizer = new Random();
     private final int id; // Once assigned a value is not allowed to change.
     private String firstName;
@@ -24,8 +24,8 @@ public class Archer implements Comparable<Archer> {
     private static int lastId = 100000;
     private int[][] totalScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
     private int[][] weightedScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
-    private int amountOfMaxPointsScored = 0;
-    private boolean[] topRoundArray = new boolean[MAX_ROUNDS];
+    private int amountOfMaxPointsScored = 0; // holds how often a MAX_POINT_VALUE was hit by an arrow
+    private boolean[] topRoundArray = new boolean[MAX_ROUNDS]; // a top round is if MAX_POINT_VALUE (or MPV - 1, MPV - 2) was hit
 
     /**
      * Constructs a new instance of bowman and assigns a unique ID to the instance. The ID is not allowed to ever
@@ -81,6 +81,11 @@ public class Archer implements Comparable<Archer> {
         return calculateTotalScore(weightedScoreArray);
     }
 
+    /**
+     * Goes through the provided scoreArray to sum up all the scored points
+     * @param scoreArray both weighted and regular scoreArrays can be processed
+     * @return returns the sum of points scored
+     */
     public int calculateTotalScore(int[][] scoreArray) {
         int score = 0;
 
@@ -99,12 +104,23 @@ public class Archer implements Comparable<Archer> {
         return score;
     }
 
+    /**
+     * Checks if the points scored by an arrow are of maximum value or up to 2 points below.
+     * Will be set to true if this is the case for the round the arrow was shot in
+     * @param round the round the arrow was shot in
+     * @param points the points scored by the archer
+     */
     public void setTopRound(int round, int points) {
         if (points == MAX_POINTS_VALUE || points == MAX_POINTS_VALUE - 1 || points == MAX_POINTS_VALUE - 2) {
             topRoundArray[round] = true;
         }
     }
 
+    /**
+     * Returns amount of top rounds an archer has.
+     * A top round is when an 8, 9 or 10 pointer was scored in a round.
+     * @return
+     */
     public int getTopRounds() {
         int sumTopRounds = 0;
         for (int i = 0; i < MAX_ROUNDS; i++) {
@@ -113,6 +129,10 @@ public class Archer implements Comparable<Archer> {
         return sumTopRounds;
     }
 
+    /**
+     * Checks if an arrow hit the maximum value target and increases the variable by one if true
+     * @param points
+     */
     public void setAmountOfMaxPointsScored(int points) {
         if (points == MAX_POINTS_VALUE) amountOfMaxPointsScored++;
     }
@@ -166,8 +186,7 @@ public class Archer implements Comparable<Archer> {
 
     @Override
     public String toString() {
-        return String.format("%d (%d / %d) %s %s [Aantal top rounds %d - Meeste 10en - %d ]", id, getTotalScore(),
-                getWeightedScore(), firstName, lastName, getTopRounds(), getAmountOfMaxPointsScored());
+        return String.format("%d (%d / %d) %s %s", id, getTotalScore(), getWeightedScore(), firstName, lastName);
     }
 
     @Override

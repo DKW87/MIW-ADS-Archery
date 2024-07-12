@@ -11,7 +11,12 @@ import java.util.Comparator;
  */
 public class LastNameComparator implements Comparator<Archer> {
 
-
+    /**
+     * Compares last name of archers.
+     * @param archer the first object to be compared.
+     * @param anotherArcher the second object to be compared.
+     * @return
+     */
     @Override
     public int compare(Archer archer, Archer anotherArcher) {
         return archer.getLastName().compareTo(anotherArcher.getLastName());

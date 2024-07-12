@@ -11,6 +11,12 @@ import java.util.Comparator;
  */
 public class IdComparator implements Comparator<Archer> {
 
+    /**
+     * compares archerId of archers.
+     * @param archer the first object to be compared.
+     * @param anotherArcher the second object to be compared.
+     * @return
+     */
     @Override
     public int compare(Archer archer, Archer anotherArcher) {
         return archer.compareTo(anotherArcher);

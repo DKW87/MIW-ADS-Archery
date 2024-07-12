@@ -5,7 +5,18 @@ import comparator.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
+/**
+ * @author Danny KWANT
+ * @studentnumber 500955184
+ *
+ * Big-O Conclusion:
+ * In my project, insertionSort and selectionSort both have O(n^2) complexity, making them inefficient for large datasets.
+ * In contrast, collectionSort uses Timsort with O(n log n), offering better performance for larger lists.
+ * Using a Comparator allows flexible sorting criteria, and a boolean for descending order enhances functionality.
+ * Overall, Collections.sort is the optimal choice for efficiency due to being O(n log n).
+ */
 public class Launcher {
 
     private static long timeMs;
@@ -55,12 +66,12 @@ public class Launcher {
 
     // methods
     private static void printAndTimeSortedList(List<Archer> archerList, Comparator<Archer> comparator, boolean descending, boolean useJavaCollections, boolean useInsertionSort) {
-        startTime();
+        startTime(); // start tracking processing time
         if (useJavaCollections) ChampionSelector.collectionSort(archerList, comparator, descending);
         else ChampionSelector.basicSort(archerList, comparator, descending, useInsertionSort);
         for (Archer archer : archerList) System.out.println(archer);
-        stopTime();
-        pressEnterToContinue();
+        stopTime(); // end tracking and report processing time to user
+        pressEnterToContinue(); // allows user to check processing time of request before continuing to next process
         System.out.println(); // empty line for formatting
     }
 
@@ -73,12 +84,9 @@ public class Launcher {
     }
 
     private static void pressEnterToContinue() {
-        System.out.println("\nDruk op enter om verder te gaan...\n");
-        try {
-            System.in.read();
-        } catch (Exception error) {
-            error.printStackTrace();
-        }
+        Scanner userInput = new Scanner(System.in);
+        System.out.print("\nDruk op enter om verder te gaan...");
+        userInput.nextLine();
     }
 
 } // class
