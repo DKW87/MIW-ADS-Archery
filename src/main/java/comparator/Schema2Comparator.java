@@ -11,6 +11,14 @@ import java.util.Comparator;
  */
 public class Schema2Comparator implements Comparator<Archer> {
 
+    /**
+     * Used to compare top rounds between archers. A top round is when an 8, 9 or 10 pointer was scored in a round.
+     * If archers have the same amount of top rounds, compare who scored the most 10 pointers.
+     * If archers have the same amount of 10 pointers, compare archerId.
+     * @param archer the first object to be compared.
+     * @param anotherArcher the second object to be compared.
+     * @return
+     */
     @Override
     public int compare(Archer archer, Archer anotherArcher) {
         int compareTopRounds = Integer.compare(archer.getTopRounds(), anotherArcher.getTopRounds());
