@@ -14,8 +14,8 @@ public class Archer {
 
     public static int MAX_ARROWS = 3;
     public static int MAX_ROUNDS = 10;
-    private static final int[] SCORE_WEIGHT_FACTORS = {0, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20};
-    // weight factors above are from low to high so that earnable points (0-10) directly match with index of this array
+    private static final int[] WEIGHTED_POINTS = {-10, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20};
+    // above weighted points are from low to high so that earnable points (0-10) directly match with index of this array
     private static final int ZERO_SHOT_POINT_DEDUCTION = -10;
     private static Random randomizer = new Random();
     private final int id; // Once assigned a value is not allowed to change.
@@ -59,7 +59,7 @@ public class Archer {
     public void registerScoreForRound(int round, int[] points) {
         for (int i = 0; i < MAX_ARROWS; i++) {
             this.totalScoreArray[round][i] = points[i];
-            this.weightedScoreArray[round][i] = setWeightedScore(points[i]);
+            this.weightedScoreArray[round][i] = WEIGHTED_POINTS[points[i]];
         }
     }
 
@@ -86,10 +86,6 @@ public class Archer {
             }
         }
         return score;
-    }
-
-    private int setWeightedScore(int points) {
-        return (points != 0) ? SCORE_WEIGHT_FACTORS[points] : ZERO_SHOT_POINT_DEDUCTION;
     }
 
     /**
