@@ -15,7 +15,7 @@ public class Archer {
     public static int MAX_ARROWS = 3;
     public static int MAX_ROUNDS = 10;
     private static final int[] WEIGHTED_POINTS = {-10, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20};
-    // above weighted points are from low to high so that earnable points (0-10) directly match with index of this array
+    // above weighted points are from low to high so that points earned (0-10) directly match with index of this array
     private static final int ZERO_SHOT_POINT_DEDUCTION = -10;
     private static Random randomizer = new Random();
     private final int id; // Once assigned a value is not allowed to change.
@@ -67,17 +67,17 @@ public class Archer {
      * @return The total score of an Archer, so the sum of all arrows of all rounds
      */
     public int getTotalScore() {
-        return calculateScore(totalScoreArray);
+        return calculateTotalScore(totalScoreArray);
     }
 
     /**
      * @return The weighted score, see documentation.
      */
     public int getWeightedScore() {
-        return calculateScore(weightedScoreArray);
+        return calculateTotalScore(weightedScoreArray);
     }
 
-    public int calculateScore(int[][] scoreArray) {
+    public int calculateTotalScore(int[][] scoreArray) {
         int score = 0;
 
         for (int i = 0; i < scoreArray.length; i++) {
@@ -85,6 +85,12 @@ public class Archer {
                 score += scoreArray[i][j];
             }
         }
+        return score;
+    }
+
+    public int calculateRoundScore(int round, int[][] scoreArray) {
+        int score = 0;
+        for (int i = 0; i < MAX_ARROWS; i++) score += scoreArray[round][i];
         return score;
     }
 

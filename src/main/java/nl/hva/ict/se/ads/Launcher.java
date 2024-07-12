@@ -42,7 +42,7 @@ public class Launcher {
     }
 
     private static void stopTime() {
-        System.out.printf("%d Ms", System.currentTimeMillis() - timeMs);
+        System.out.printf("%d ms", System.currentTimeMillis() - timeMs);
     }
 
 }
