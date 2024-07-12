@@ -26,7 +26,7 @@ class ChampionSelectorTest {
         List<Archer> unsortedArchersForCollectionSort = new ArrayList<>(unsortedArchersForBasicSort);
 
         List<Archer> sortedArchersBasicSort = ChampionSelector.basicSort(unsortedArchersForBasicSort, comparator);
-        List<Archer> sortedArchersCollectionSort = ChampionSelector.collectionSort(unsortedArchersForCollectionSort, comparator);
+        List<Archer> sortedArchersCollectionSort = ChampionSelector.collectionSort(unsortedArchersForCollectionSort, comparator, false);
 
         assertEquals(sortedArchersCollectionSort, sortedArchersBasicSort);
     }

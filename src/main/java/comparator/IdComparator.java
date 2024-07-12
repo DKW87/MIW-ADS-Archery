@@ -13,7 +13,7 @@ public class IdComparator implements Comparator<Archer> {
 
     @Override
     public int compare(Archer archer, Archer anotherArcher) {
-        return Integer.compare(archer.getId(), anotherArcher.getId());
+        return archer.compareTo(anotherArcher);
     }
 
 } // class
