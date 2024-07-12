@@ -26,7 +26,7 @@ public class Schema1Comparator implements Comparator<Archer> {
         // instead of nested ifs/else or 2 ternary statements, I used one of each to keep it readable and compact
         if (compareTotalScore == 0 ) {
             int compareWeightedScore = Integer.compare(archer.getWeightedScore(), anotherArcher.getWeightedScore());
-            return compareWeightedScore == 0 ? archer.compareTo(anotherArcher) : compareWeightedScore;
+            return compareWeightedScore == 0 ? anotherArcher.compareTo(archer) : compareWeightedScore;
         }
         return compareTotalScore;
     }

@@ -16,7 +16,7 @@ public class Archer implements Comparable<Archer> {
     public static int MAX_ROUNDS = 10;
     private static final int[] WEIGHTED_POINTS = {-10, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20};
     // above weighted points are from low to high so that points earned (0-10) directly match with index of this array
-    private static final int ZERO_SHOT_POINT_DEDUCTION = -10;
+    private static final int MAX_POINTS_VALUE = 10;
     private static Random randomizer = new Random();
     private final int id; // Once assigned a value is not allowed to change.
     private String firstName;
@@ -24,6 +24,8 @@ public class Archer implements Comparable<Archer> {
     private static int lastId = 100000;
     private int[][] totalScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
     private int[][] weightedScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
+    private int amountOfMaxPointsScored = 0;
+    private boolean[] topRoundArray = new boolean[MAX_ROUNDS];
 
     /**
      * Constructs a new instance of bowman and assigns a unique ID to the instance. The ID is not allowed to ever
@@ -60,6 +62,8 @@ public class Archer implements Comparable<Archer> {
         for (int i = 0; i < MAX_ARROWS; i++) {
             this.totalScoreArray[round][i] = points[i];
             this.weightedScoreArray[round][i] = WEIGHTED_POINTS[points[i]];
+            setTopRound(round, points[i]);
+            setAmountOfMaxPointsScored(points[i]);
         }
     }
 
@@ -88,10 +92,29 @@ public class Archer implements Comparable<Archer> {
         return score;
     }
 
+    // this was asked for in the documentation, but is not being used? Left it because it was asked for.
     public int calculateRoundScore(int round, int[][] scoreArray) {
         int score = 0;
         for (int i = 0; i < MAX_ARROWS; i++) score += scoreArray[round][i];
         return score;
+    }
+
+    public void setTopRound(int round, int points) {
+        if (points == MAX_POINTS_VALUE || points == MAX_POINTS_VALUE - 1 || points == MAX_POINTS_VALUE - 2) {
+            topRoundArray[round] = true;
+        }
+    }
+
+    public int getTopRounds() {
+        int sumTopRounds = 0;
+        for (int i = 0; i < MAX_ROUNDS; i++) {
+            if (topRoundArray[i]) sumTopRounds++;
+        }
+        return sumTopRounds;
+    }
+
+    public void setAmountOfMaxPointsScored(int points) {
+        if (points == MAX_POINTS_VALUE) amountOfMaxPointsScored++;
     }
 
     /**
@@ -109,10 +132,6 @@ public class Archer implements Comparable<Archer> {
         }
         return archers;
 
-    }
-
-    public int getId() {
-        return id;
     }
 
     private static void letArcherShoot(Archer archer, boolean isBeginner) {
@@ -133,18 +152,27 @@ public class Archer implements Comparable<Archer> {
         return Math.max(min, randomizer.nextInt(11));
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getLastName() {
         return lastName;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%d (%d / %d) %s %s", id, getTotalScore(), getWeightedScore(), firstName, lastName);
+    public int getAmountOfMaxPointsScored() {
+        return amountOfMaxPointsScored;
     }
 
     @Override
-    public int compareTo(Archer o) {
-        return this.id - o.id;
+    public String toString() {
+        return String.format("%d (%d / %d) %s %s [Aantal top rounds %d - Meeste 10en - %d ]", id, getTotalScore(),
+                getWeightedScore(), firstName, lastName, getTopRounds(), getAmountOfMaxPointsScored());
+    }
+
+    @Override
+    public int compareTo(Archer anotherArcher) {
+        return this.id - anotherArcher.id;
     }
 
 } // class

@@ -12,7 +12,7 @@ public class ChampionSelector {
     /**
      * This method uses either selection sort or insertion sort for sorting the archers.
      */
-    public static List<Archer> basicSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
+    public static List<Archer> basicSort(List<Archer> archers, Comparator<Archer> scoringScheme, boolean descending) {
         // TODO implement a basic sort method of your choice
         return archers;
     }
@@ -20,11 +20,11 @@ public class ChampionSelector {
 
     /**
      * This method uses the Java collections sort algorithm for sorting the archers.
-     * @param descending causes list to be reversed from highest to lowest (default is ascending from low to high)
+     * @param descending reverses the comparators allowing for list to be returned sorted in descending order
      */
     public static List<Archer> collectionSort(List<Archer> archers, Comparator<Archer> scoringScheme, boolean descending) {
-        Collections.sort(archers, scoringScheme);
-        if (descending) Collections.reverse(archers);
+        if (descending) archers.sort(scoringScheme.reversed());
+        else archers.sort(scoringScheme);
         return archers;
     }
 
