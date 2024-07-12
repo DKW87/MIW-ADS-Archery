@@ -11,21 +11,18 @@ import java.util.*;
  * in your report.
  */
 public class Archer {
+
     public static int MAX_ARROWS = 3;
     public static int MAX_ROUNDS = 10;
+    private static final int[] SCORE_WEIGHT_FACTORS = {0, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20}; // from low to high 0-10 so points directly match index of array
+    private static final int ZERO_SHOT_POINT_DEDUCTION = -10;
     private static Random randomizer = new Random();
     private final int id; // Once assigned a value is not allowed to change.
     private String firstName;
     private String lastName;
     private static int lastId = 100000;
-    // TODO: add an attribute for the scores of all arrows of all rounds. Hint: use 2d-array
     private int[][] totalScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
     private int[][] weightedScoreArray = new int[MAX_ROUNDS][MAX_ARROWS];
-    private static final int[] SCORE_WEIGHT_FACTORS = {0, 1, 2, 3, 4, 6, 8, 10, 13, 16, 20}; // from low to high 0-10 so points directly match index of array
-    private int zeroShotCount;
-    private static final int ZERO_SHOT_MULTIPLIER = 10;
-
-
 
     /**
      * Constructs a new instance of bowman and assigns a unique ID to the instance. The ID is not allowed to ever
@@ -61,8 +58,7 @@ public class Archer {
     public void registerScoreForRound(int round, int[] points) {
         for (int i = 0; i < MAX_ARROWS; i++) {
             this.totalScoreArray[round][i] = points[i];
-            this.weightedScoreArray[round][i] = SCORE_WEIGHT_FACTORS[points[i]];
-            checkSetZeroShot(points[i]);
+            this.weightedScoreArray[round][i] = setWeightedScore(points[i]);
         }
     }
 
@@ -77,7 +73,7 @@ public class Archer {
      * @return The weighted score, see documentation.
      */
     public int getWeightedScore() {
-        return calculateScore(weightedScoreArray) - (zeroShotCount * ZERO_SHOT_MULTIPLIER);
+        return calculateScore(weightedScoreArray);
     }
 
     public int calculateScore(int[][] scoreArray) {
@@ -91,8 +87,8 @@ public class Archer {
         return score;
     }
 
-    private void checkSetZeroShot(int points) {
-        if (points == 0) zeroShotCount++;
+    private int setWeightedScore(int points) {
+        return (points != 0) ? SCORE_WEIGHT_FACTORS[points] : ZERO_SHOT_POINT_DEDUCTION;
     }
 
     /**
