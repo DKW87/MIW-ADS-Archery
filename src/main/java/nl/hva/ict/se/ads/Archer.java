@@ -10,7 +10,7 @@ import java.util.*;
  * testing purposes in which case the reason why you need that constructor must be contained in a very clear manner
  * in your report.
  */
-public class Archer {
+public class Archer implements Comparable<Archer> {
 
     public static int MAX_ARROWS = 3;
     public static int MAX_ROUNDS = 10;
@@ -142,4 +142,9 @@ public class Archer {
         return String.format("%d (%d / %d) %s %s", id, getTotalScore(), getWeightedScore(), firstName, lastName);
     }
 
-}
+    @Override
+    public int compareTo(Archer o) {
+        return this.id - o.id;
+    }
+
+} // class
