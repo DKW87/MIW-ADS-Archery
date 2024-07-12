@@ -1,5 +1,7 @@
 package nl.hva.ict.se.ads;
 
+import comparator.IdComparator;
+import comparator.LastNameComparator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +17,7 @@ class ChampionSelectorTest {
 
     @BeforeEach
     public void createComparator() {
-        // Instantiate your own comparator here...
-        // comparator = new .....();
+        comparator = new IdComparator();
     }
 
     @Test

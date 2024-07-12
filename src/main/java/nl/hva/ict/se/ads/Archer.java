@@ -133,6 +133,10 @@ public class Archer {
         return Math.max(min, randomizer.nextInt(11));
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     @Override
     public String toString() {
         return String.format("%d (%d / %d) %s %s", id, getTotalScore(), getWeightedScore(), firstName, lastName);

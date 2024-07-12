@@ -22,7 +22,7 @@ public class ChampionSelector {
      * This method uses the Java collections sort algorithm for sorting the archers.
      */
     public static List<Archer> collectionSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
-        archers.sort(scoringScheme);
+        Collections.sort(archers, scoringScheme);
         return archers;
     }
 
