@@ -11,6 +11,12 @@ import java.util.Scanner;
  * @author Danny KWANT
  * @studentnumber 500955184
  *
+ * This assignment is about comparing and sorting in different ways.
+ * I created a program used in an archery competition.
+ * Each archer shoots 3 arrows per round, and the competition lasts 10 rounds.
+ * Various scores are possible.
+ * For each arrow, the score must be recorded, along with the round in which it was shot.
+ *
  * Big-O Conclusion:
  * In my project, insertionSort and selectionSort both have O(n^2) complexity, making them inefficient for large datasets.
  * In contrast, collectionSort uses Timsort with O(n log n), offering better performance for larger lists.
@@ -21,46 +27,65 @@ public class Launcher {
 
     private static long timeMs;
 
+
     public static void main(String[] args) {
+
+        // variables
+        final String[] sortingLabels = new String[] {"unsortedList", "sortLastName", "sortId", "sortSchema1",
+                "sortSchema2", "collectionSort", "basicSort"};
+        long[] processingTimeSorting = new long[7];
+
         startTime();
-        List<Archer> unsortedArcherList = Archer.generateArchers(150000);
+        List<Archer> unsortedArcherList = Archer.generateArchers(50000);
         for (Archer archer : unsortedArcherList) {
             System.out.println(archer);
         }
         stopTime();
-        pressEnterToContinue();
+        processingTimeSorting[0] = timeMs;
+
         System.out.println();
 
         // switched id and last name around since id is already sorted correctly after generating
         System.out.println("------- bezig met sorteren op achternaam ---------");
         printAndTimeSortedList(unsortedArcherList, new LastNameComparator(), false,
-                false, true);
+                false, false);
+        processingTimeSorting[1] = timeMs;
 
         System.out.println("------- bezig met sorteren op Id ---------");
         printAndTimeSortedList(unsortedArcherList, new IdComparator(), false,
-                false, false);
+                false, true);
+        processingTimeSorting[2] = timeMs;
 
         System.out.println("------- bezig met sorteren op hoogste score (schema 1) ---------");
         printAndTimeSortedList(unsortedArcherList, new Schema1Comparator(), true,
-                false, true);
+                false, false);
+        processingTimeSorting[3] = timeMs;
 
         System.out.println("------- bezig met sorteren op top rondes (schema 2)---------");
         printAndTimeSortedList(unsortedArcherList, new Schema2Comparator(), true,
-                false, false);
+                false, true);
+        processingTimeSorting[4] = timeMs;
 
-        // make 2 copies of the Schema2 sorted list to sort back to Schema1 for efficiency testing
-        List<Archer> sortedArcherListCollectionSort = unsortedArcherList;
-        List<Archer> sortedArcherListBasicSort = unsortedArcherList;
+        // make a copy of Schema2 sorted list to sort back to Schema1 for efficiency testing
+        List<Archer> unsortedArcherListCopy = unsortedArcherList;
 
         System.out.println("------- controleren efficiëntie van sorteer algoritmes ---------");
 
         System.out.println("\n------- bezig met Java collectionSort ---------");
-        printAndTimeSortedList(sortedArcherListCollectionSort, new Schema1Comparator(), false,
+        printAndTimeSortedList(unsortedArcherListCopy, new Schema1Comparator(), false,
                 true, false);
+        processingTimeSorting[5] = timeMs;
 
         System.out.println("------- bezig met eigen basicSort (insertion/selection) ---------");
-        printAndTimeSortedList(sortedArcherListBasicSort, new Schema1Comparator(), false,
-                false, true);
+        printAndTimeSortedList(unsortedArcherList, new Schema1Comparator(), false,
+                false, false);
+        processingTimeSorting[6] = timeMs;
+
+        // show results
+        System.out.printf("%-15s %15s %n", "Sorteermethode", "Verwerkingstijd");
+        for (int i = 0; i < processingTimeSorting.length; i++) {
+            System.out.printf("%-20s %10s %n", sortingLabels[i], processingTimeSorting[i] + " Ms");
+        }
 
     } // main
 
@@ -71,7 +96,6 @@ public class Launcher {
         else ChampionSelector.basicSort(archerList, comparator, descending, useInsertionSort);
         for (Archer archer : archerList) System.out.println(archer);
         stopTime(); // end tracking and report processing time to user
-        pressEnterToContinue(); // allows user to check processing time of request before continuing to next process
         System.out.println(); // empty line for formatting
     }
 
@@ -80,13 +104,8 @@ public class Launcher {
     }
 
     private static void stopTime() {
-        System.out.printf("%nVerwerkingstijd voor deze actie was: %d Ms %n", System.currentTimeMillis() - timeMs);
-    }
-
-    private static void pressEnterToContinue() {
-        Scanner userInput = new Scanner(System.in);
-        System.out.print("\nDruk op enter om verder te gaan...");
-        userInput.nextLine();
+        timeMs = System.currentTimeMillis() - timeMs;
+        System.out.printf("%nVerwerkingstijd voor deze actie was: %d Ms %n", timeMs);
     }
 
 } // class

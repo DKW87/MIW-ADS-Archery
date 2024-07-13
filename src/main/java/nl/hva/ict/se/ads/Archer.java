@@ -97,7 +97,7 @@ public class Archer implements Comparable<Archer> {
         return score;
     }
 
-    // this was asked for in the documentation, but is not being used? Left it because it was asked for.
+    // this was asked for in the documentation, but is not being used? Left it in because it was asked for.
     public int calculateRoundScore(int round, int[][] scoreArray) {
         int score = 0;
         for (int i = 0; i < MAX_ARROWS; i++) score += scoreArray[round][i];
