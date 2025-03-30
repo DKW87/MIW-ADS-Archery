@@ -3,6 +3,7 @@ package nl.hva.ict.se.ads;
 import comparator.*;
 
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -35,12 +36,14 @@ public class Launcher {
         long[] processingTimeSorting = new long[7];
 
         startTime();
-        List<Archer> unsortedArcherList = Archer.generateArchers(50000);
+        List<Archer> unsortedArcherList = Archer.generateArchers(2000);
         for (Archer archer : unsortedArcherList) {
             System.out.println(archer);
         }
         stopTime();
         processingTimeSorting[0] = timeMs;
+
+        Collections.shuffle(unsortedArcherList);
 
         System.out.println();
 
@@ -50,20 +53,28 @@ public class Launcher {
                 false, false);
         processingTimeSorting[1] = timeMs;
 
+        Collections.shuffle(unsortedArcherList);
+
         System.out.println("------- bezig met sorteren op Id ---------");
         printAndTimeSortedList(unsortedArcherList, new IdComparator(), false,
                 false, true);
         processingTimeSorting[2] = timeMs;
+
+        Collections.shuffle(unsortedArcherList);
 
         System.out.println("------- bezig met sorteren op hoogste score (schema 1) ---------");
         printAndTimeSortedList(unsortedArcherList, new Schema1Comparator(), true,
                 false, false);
         processingTimeSorting[3] = timeMs;
 
+        Collections.shuffle(unsortedArcherList);
+
         System.out.println("------- bezig met sorteren op top rondes (schema 2)---------");
         printAndTimeSortedList(unsortedArcherList, new Schema2Comparator(), true,
                 false, true);
         processingTimeSorting[4] = timeMs;
+
+        Collections.shuffle(unsortedArcherList);
 
         // make a copy of Schema2 sorted list to sort back to Schema1 for efficiency testing
         List<Archer> unsortedArcherListCopy = unsortedArcherList;
